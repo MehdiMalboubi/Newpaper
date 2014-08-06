@@ -1,0 +1,79 @@
+\begin{abstract}
+Two forms of network inference (or tomography) problems have been
+  studied rigorously: (a) traffic matrix estimation or
+  completion based on link-level traffic measurements, and (b) link-level loss or delay inference based on
+  end-to-end measurements.  These problems
+  are often posed as under-determined linear inverse (UDLI) problems
+  and solved in a {\em centralized} manner, where all the measurements
+  are collected at a central node, which then applies a variety of
+  inference techniques to estimate the attributes of
+  interest.
+
+  This paper proposes a novel framework for {\em decentralizing} these
+  large-scape UDLI network inference problems by intelligently
+  partitioning it into smaller sub-problems and solving them
+  independently and in parallel. The resulting estimates, referred to
+  as {\em multiple descriptions}, can then be fused together to
+  compute the global estimate. We apply this Multiple Description and
+  Fusion Estimation (MDFE) framework to three classicial problems:
+  traffic matrix estimation, traffic matrix completion, and loss
+  inference.  Using real topologies and traces, we demonstrate how
+  MDFE can speed up computation time while maintaining (even
+  improving) the estimation accuracy and how it enhances robustness against noise and failures.
+  We also show that our MDFE framework is compatible with a variety
+  of existing inference techniques used to solve the UDLI
+  problems. In particular, we examine different partitioning algorithms and fusion approaches and we develop the basic theory of MDFE for solving UDLI problems, for the first time. 
+
+\begin{keywords}
+Style file, \latexiie, Microsoft Word, IEEE Publications, Instrumentation
+and Measurement Technology Conference, IMTC.
+\end{keywords}
+
+%
+%  Traffic Matrices (TM) provide an important insight into the demands
+%  placed on networks and are used in a variety of applications, e.g.,
+%  network design, capacity planning, and anomaly detection. TM
+%  estimation is typically an under-determined problem and hence many
+%  studies have focused on how to improve the inference process by
+%  leveraging axillary information and combining data from multiple sources. In this paper, we propose the concept of
+%  multiple-description fusion for traffic estimation problem (MD-TME) where TM estimation problem is partitioned into
+%  multiple sub-problems that can be independently solved in sub-spaces to generate multiple descriptions (or estimates) of TM,
+%  which can then be fused together to reduce overall estimation
+%  error. The reduction of computational overhead using MD-TME is significant. This has important
+%  implications on fast-tracking TM estimations not only for large IP
+%  backbone, but also for distributed data centers or cloud
+%  environment, where traffic engineering may be performed at much
+%  smaller time-scales. MD-TME is also compatible with various TM estimation techniques and different sources of data; moreover it is robust against noise and loss of information. We examine different partitioning algorithms and fusion approaches and we evaluate the performance of this framework using synthetic and real TMs from operational networks. For example, on
+%  GEANT network, MD-TME can reduce relative TM estimation error by 21\% while
+%  cutting down the computation time by 97\%.
+\end{abstract}
+% A category with the (minimum) three required fields
+% \category{H.4}{Insights into network and traffic characteristics}{Miscellaneous}
+%A category including the fourth, optional field follows...
+% \category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+% \category{Insights into network and traffic characteristics or Network management and traffic engineering.}\\
+% \terms{Theory}
+\keywords{Traffic Matrix Estimation, Inverse Problem, Partitioning, Multiple Description Fusion, Decentralized/Distributed Estimation.}
+%  Traffic Matrices (TM) provide an important insight into the demands
+%  placed on networks and are used in a variety of applications, e.g.,
+%  network design, capacity planning, and anomaly detection. TM
+%  estimation is typically an under-determined problem and hence many
+%  studies have focused on how to improve the inference process by
+%  leveraging axillary information and combining data from multiple
+%  additional sources. In this paper, we propose the concept of
+%  multiple-description fusion for traffic estimation problem (MD-TME) where TM estimation problem is partitioned into
+%  multiple sub-problems that can be independently solved in respective
+%  sub-spaces to generate multiple descriptions (or estimates) of TM,
+%  which can then be fused together to reduce overall estimation
+%  error. We examine different partitioning algorithms and fusion
+%  approaches. Using real TMs from operational networks, we show that
+%  MD-TME not only improves the accuracy of TM estimation but also
+%  decreases the computational overhead significantly. For example, on
+%  GEANT network, MD-TME can reduce relative TM estimation error by 21\% while
+%  cutting down the computation time by 97\%. This has important
+%  implications on fast-tracking TM estimations not only for large IP
+%  backbone, but also for distributed data centers or cloud
+%  environment, where traffic engineering may be performed at much
+%  smaller time-scales.We also believe that this
+%  constitutes a new approach for solving under-determined linear
+%  system of equations and an open area for further investigation.

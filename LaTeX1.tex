@@ -1,0 +1,78 @@
+Software-Defined Networking (SDN), along with its enabler such as OpenFlow, is an emerging technology that nicely separates the measurement data plane and control plane functions, and provides a capability to control/re-program the internal configurations of switches in dynamic environments. Consequently, SDN allows to implement more complex network monitoring and management applications, effectively and efficiently.
+
+
+
+
+
+In computer networks, network management refers to the activities, methods, procedures, and tools that pertain to the operation, administration, maintenance, provisioning and security of networked systems \cite{Clemmi:2006}. A key requirement for network management is accurate and reliable network monitoring where critical information about internal characteristics or states of the network(s) must be directly measured or indirectly inferred. In addition, accurate network monitoring is essential for network management in order to reach QoS agreements.
+
+In today's complex networks, the direct measurement of network's Internal Attributes of Interest (IAI) can be challenging or even inefficient and infeasible due to the hard constraints of network measurement resources including the limited number of Ternary Content-Addressable Memory (TCAM) entries at switches, the limited processing power, storage capacity and/or limited available bandwidth in active network performance measurement. Therefore, Network Inference techniques, known as powerful network monitoring tools, can help estimate the IAIs based on a limited set of measurements and, accordingly, mitigate the limitations and constraints of direct network measurement techniques [2]. 
+
+Network o=inference techniques are usually formulated as an Under-Determined Linear Inverse (UDLI) problems  
+unknown 
+
+
+ 
+
+
+
+    . Therefore intelligent + inference
+
+
+
+
+ complexity of current Internet, limited monitoring resources, and exploding traffic volume. In fact, considering measurement resource constraints
+(e.g. limited number of TCAM entries at switches for flow
+size measurement or limited bandwidth available in active
+loss/delay measurement), it is not only impossible to directly
+measure all attribute of interests but also it is unmanageable,
+inefficient and expensive to store and process all measurements
+due to limited memory and processing power. Network inference/
+tomography methods are powerful tools that can help
+
+
+Network monitoring is essential for network management and control where the main goal is optimal traffic engineering and obtaing required QoS  
+
+
+Designing, monitoring, and managing of today’s complex
+networks depends on providing critical information about
+aspects of the networks that must be measured or inferred.
+Direct measurement of some attributes of interest can be
+challenging or infeasible due to the complexity of current
+Internet, limited monitoring resources, and exploding traffic
+volume. In fact, considering measurement resource constraints
+(e.g. limited number of TCAM entries at switches for flow
+size measurement or limited bandwidth available in active
+loss/delay measurement), it is not only impossible to directly
+measure all attribute of interests but also it is unmanageable,
+inefficient and expensive to store and process all measurements
+due to limited memory and processing power. Network inference/
+tomography methods are powerful tools that can help
+estimate the internal attributes of interests based on a limited
+set of measurements and, accordingly, mitigate the limitations
+and constraints of direct network measurement techniques
+[2]. Two forms of Network Inference (NI) have been studied
+rigorously: (a) origin-destination (path-level) traffic volume
+estimation based on link-level traffic measurements
+
+
+
+A key requirement for network management in order to
+reach QoS agreements and traffic engineering is accurate
+traffic monitoring. In the past decade, network monitoring
+has been an active field of research, particularly because it
+is difficult to retrieve online and accurate measurements in IP
+networks due to the large number and volume of traffic flows
+and the complexity of deploying a measurement infrastructure
+[1]. Many flow-based measurement techniques consume too
+much resources (bandwidth, CPU) due to the fine-grained
+monitoring demands, while other monitoring solutions require
+large investments in hardware deployment and configuration
+
+management. Instead, Internet Service Providers (ISPs) over-
+provision their network capacity to meet QoS constraints
+[2]. Nonetheless, over-provisioning conflicts with operating a
+network as efficient as possible and does not facilitate fine-
+grained Traffic Engineering (TE). TE in turn, needs granular
+real-time monitoring information to compute the most efficient
+routing decisions.

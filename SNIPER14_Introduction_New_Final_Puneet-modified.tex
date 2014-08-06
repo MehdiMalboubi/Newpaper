@@ -1,0 +1,186 @@
+\section{Introduction}  \label{sec:SNIPERIntro} 
+
+The direct measurement of network's Internal Attributes of Interest
+(IAI) such as the Origin-Destination Flow (ODF) sizes (as a measure of
+traffic intensity between nodes) or per-flow delay, throughput or
+packet loss, can be challenging or even inefficient and infeasible due
+scale, complexity and limited availability of network measurement
+resources. In large-scale networks, the measurement resources,
+including the Ternary Content Addressable Memory (TCAM) entries,
+processing power, storage capacity and limited available bandwidth,
+are very limited, and hence, rendering per-flow measurements are
+infeasible. To cope with scalability issues, Network Inference (NI)
+techniques can be leveraged to estimate various IAI based on partial
+passive and/or active measurements. However, NI problems are naturally
+ill-posed in the sense that the number of measurements are not
+sufficient to uniquely and accurately determine the solution. Hence,
+side (supplementary) information from different sources and vantage
+points must be incorporated into the problem formulation to improve
+the estimation precision \cite{QZhao:2006} \cite{MDFE:2013}
+\cite{HNguyen:2007}.
+
+Software-Defined Networking (SDN) provides data plane and control
+plane separation enabling capability to dynamically control and
+re-program network switches. Most current research has focused on
+leveraging SDN flexibility to implement complex network control
+applications like route control. However, SDN can also enable adaptive
+and efficient implementation of passive and active network monitoring
+applications that can be controlled dynamically at run-time
+\cite{MYu:2011} \cite{MYu:2013} \cite{IF14iSTAMP:2014}
+\cite{Adrichen:2014}. This is of particular importance in many network
+management and security applications where accurate and reliable
+network monitoring is necessary to provide critical information about
+internal characteristics or states of the network(s) that must be
+directly measured or indirectly inferred.
+% \cite{Medina} \cite{Cao:2000} \cite{Roughan:2012}
+
+The network inference techniques to estimate a particular IAI can
+utilize the run-time programmability provided by the SDN to optimize
+and facilitate the process of collecting the required direct
+measurements and/or side information. In fact, the capabilities of SDN
+have been utilized in a variety of passive and active network
+monitoring applications. Most SDN based passive measurement studies
+are related to traffic engineering and network security applications,
+such as, network traffic measurement or identifying Heavy Hitters (HH)
+and Hierarchical Heavy Hitters (HHH). In \cite{MYu:2011} and
+\cite{MYu:2013}, SDN reconfigurable measurement architectures are
+proposed where a variety of sketches for different direct measurement
+tasks can be defined and installed by the operator. In
+\cite{Tootoonchian:2010}, OpenTM directly measures a traffic matrix by
+keeping track of statistics for each flow. Recently, in
+\cite{IF14iSTAMP:2014}, an intelligent SDN based traffic measurement
+framework (called iSTAMP) with the ability of adaptive and accurate
+fine-grained flow estimation is proposed. For active network
+measurement under SDN paradigm, the very recent work
+\cite{Adrichen:2014} establishes a general framework (called
+Opennetmon) where accurate measurements of per-flow throughput, packet
+loss and delay can be directly measured.
+
+% here for \cite{MYu:2013} IAI is a binary vector which represents the sate of measurements and inference is the HH detection technique (will be added to this paragraph)
+However, the state of the art SDN-enabled traffic measurement and
+inference methods, for example in \cite{MYu:2013}
+\cite{IF14iSTAMP:2014}, suffer from the following challenges. First,
+these frameworks are not generally applicable and are mainly limited
+to network traffic volume measurement. Second, the longest prefix matching
+forwarding in OpenFlow implies that incoming flows can be aggregated
+in just one entry of the TCAM, and hence, the capability of providing
+optimal redundant aggregated measurements is limited. Third, in
+\cite{IF14iSTAMP:2014}, to simplify the process of designing the
+optimal aggregation (i.e. measurement) matrix, the ultimate estimation
+accuracy is not directly targeted. Instead, the coherency of the
+measurement matrix is minimized, leading to unavoidable sacrifice in
+the performance \cite{IF14iSTAMP:2014}\cite{Elad:2007}.
+% Third, in \cite{IF14iSTAMP:2014}, the main objective function in the design of optimal aggregation matrix does not target the main estimation accuracy and, therefore, it accepts the unavoidable sacrifice in the performance.
+
+On the other hand, recently, Matrix Completion (MC) techniques have
+been used as powerful network inference tools that involve completing
+a matrix of IAI from the direct measurement of a sub-set of its
+independent entries
+\cite{Roughan:2012}\cite{Gursun:2011}\cite{YLiao:2011}. Examples of
+the matrix of IAI include a matrix where each entry is an ODF at
+different times \cite{Roughan:2012}, or per-flow delay/packet-loss
+between different nodes of the network \cite{YLiao:2011}. Since a
+variety of resources and information are often shared across different
+layers in communication networks, the main assumption in MC techniques
+is that the matrix of IAI is a low-rank matrix which contains
+spatio-temporal redundancies, and thus, not all of its entries are
+needed to represent it; accordingly missed or non-observed entries can
+be estimated from a sub-set of randomly measured entries. In the
+theory of matrix completion, the matrix of IAI can be completely
+reconstructed from a sub-set of observed/measured entries (indicating
+the observation/measurement matrix) if the number of \emph{randomly}
+chosen observations are \emph{high} enough
+\cite{Candes:2009}\cite{Candes:2010}. Accordingly, in
+\cite{Roughan:2012} and \cite{Gursun:2011} the MC methods are used for
+network Traffic Matrix (TM) completion to estimate the missed entries
+of the TMs. Also, in \cite{YLiao:2011}, a new MC technique has been
+used for active network performance measurements where the status of
+path delays or bandwidths are predicted from a set of active
+measurements and using a new MC technique.
+
+In this paper we propose a novel approach to combine SDN
+programmability with MC techniques for reconstructing the matrix of
+IAI from a sub-set of directly measured \emph{independent}
+entries. Thus paving the way for: 1) designing an efficient framework
+for different passive/active network measurement applications under
+hard constraint of measurement resources, and 2) providing required
+side information without feasibility constraints (as in
+\cite{IF14iSTAMP:2014}). Our approach uses different matrix completion
+techniques as our main NI tools, and define an observation matrix for
+SDN-enabled programmable direct measurements of IAI to be used by MC
+algorithms. Specifically, we answer the following interesting
+question:
+
+\emph{Given limited network measurement resouces, how can we use the SDN capabilities to directly measure a sub-set of entries of the IAI matrix and thus design the optimal observation matrix leading to the best possible estimation accuracy using matrix completion techniques?}
+
+However, the \emph{direct} design of optimal observation matrices for
+maximizing the performance of NI methods is prohibitive due to the
+complexity of the process \cite{IF14iSTAMP:2014}\cite{Elad:2007}. The
+underlying difficulty lies in the fact that formulating the network
+inference process or algorithm, as a function of the observation
+matrix which targets the ultimate estimation accuracy, into a
+closed-form and well-defined optimization problem that can be
+efficiently optimized is extremely complicated and computationally
+complex, if it is not impossible or intractable. Therefore, in this
+paper, we propose a new approach in designing the optimal observation
+matrix for network inference problems where we \emph{directly} target
+the ultimate estimation accuracy in network monitoring applications in
+our optimization framework. However, to cope with the inherent
+complexity of the process of designing large-scale optimal observation
+matrices, we use the well known Evolutionary Optimization Algorithms
+(EOA) that are suitable for the optimization problems where the main
+objective function is a procedure or an algorithm that can not be
+formulated as a well-defined mathematical function. In this framework,
+the evolutionary optimization algorithm acts as a \emph{sniper} which
+precisely captures or measures the best or the most informative
+entries of the matrix of IAI which leads to the best estimation
+accuracy via using matrix completion techniques. We refer to our proposed framework as Software defined Network
+Inference with Passive/active Evolutionary-optimal pRobing
+(SNIPER). 
+
+{\bf GOAL OF FOLLOWING PARAGRAPH IS NOT CLEAR.}
+The SNIPER is a simple, flexible, and efficient framework
+which can be easily deployed on commodity OpenFlow-enabled
+routers/switches to enhance the performance of various passive or
+active network monitoring applications with low computation and
+communication overhead between control and data planes. Since MC
+techniques (as the main NI methods employed by SNIPER) directly use
+partial independent measurements of IAI, this framework can be easily
+implemented in a centralized or distributed manner. Accordingly, it is
+compatible with the recent trends in developing more smart and agile
+SDN platforms \cite{Bianchi:2014}\cite{Moshref:2014} with data plane
+APIs and switches are able to execute codes inside the device with no
+further interaction with the controller.
+
+Our main contributions are summarized as follows:
+
+\textbf{$\text{\hspace{0.1cm}}\bullet$} To the best of our knowledge,
+this is the first time that EOAs are applied to design the optimal
+observation matrix where ultimate network inference performance is the
+main objective function to be optimized. We show that under hard
+constraint of measurement resources the optimal design of the
+observation matrix provides more accurate estimates in different
+network monitoring applications, including per-flow size and delay
+estimations.
+
+\textbf{$\text{\hspace{0.1cm}}\bullet$} We address the scalability,
+deployability and feasibility of the SNIPER framework: a) by reducing
+the computational complexity of EOAs; b) by introducing a new adaptive
+algorithm for network measurement in dynamic environments, and c) by
+evaluating the performance of our framework using both synthetic and
+real network measurement traces from different network topologies. We
+applied SNIPER to two main applications: network traffic and delay
+estimations. In addition, we implemented a prototype of SNIPER in
+Mininet.
+
+The rest of this paper is organized as
+follows. Section~\ref{sec:SNIPERSysDsc} provides an overview of the
+SNIPER framework and the matrix completion techniques that we have
+used as our main NI methods.  In Section~\ref{sec:SNIPEREvlObsMtxDsg}
+we describes our optimal observation matrix design procedure using the
+EOAs. Then, in Section~\ref{sec:SNIPERPerfEvalApp}, we explain our
+methodology for evaluating the performance of the SNIPER. In
+Section~\ref{sec:SNIPERResults}, we evaluate the performance of SNIPER
+considering two main applications including per-flow path delay and
+per-flow size estimations. Section~\ref{sec:Conclu} summarizes our
+most important results.

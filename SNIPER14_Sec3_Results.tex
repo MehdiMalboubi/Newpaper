@@ -1,0 +1,209 @@
+\section{\textbf{\emph{i}}STAMP Performance Evaluation}   \label{sec:iSTAMPResults}
+In this section, the effectiveness of our network measurement and inference framework in Figure \ref{fig:GBDTCAM} is justified. For this purpose, three real networks (Table \ref{tab:DataSetProp}) with different configurations are considered. The Abilene \cite{Abilene} and GEANT \cite{Uhlig:2006} networks are well known networks with publicly available traffic traces. The routing matrices $H_{Abilene}$ and $H_{Geant}$ are ($30\times 144$) and ($74 \times 529$) binary matrices with full row-ranks. To consider a more dynamic environment with highly varying flows, we processed the publicly available data center packet traces in \cite{Benson:2010} and randomly chose a subset of rapidly fluctuating flows over time/space. We also assumed a Fat-Tree topology where the number of servers communicating among different racks ($n_{Ext}$) vary and ECMP routing is used between aggregation and core levels. In this case, flows are defined as traffic between servers in different racks.
+\begin{table}[b]
+	\centering
+ \scriptsize{
+ \renewcommand{\tabcolsep}{0.05cm}
+ \renewcommand{\arraystretch}{1.0}
+		\begin{tabular}{| c | c | c | c | c | c |}
+		\hline
+     Network  & Date       & Duration  & Resolution   & TM Size ($n \times T_{c}$)              \\ \hline
+    \hline
+      GEANT \cite{Uhlig:2006}  & 2005-01-08 &  1 week   & 15 min.      & 529 $\times$ 672     \\ \hline
+      Abilene \cite{Abilene} & 2004-05-01 &  1 week   &  5 min.      & 144 $\times$ 2016    \\ \hline
+      Data Center (Univ1) \cite{Benson:2010}  & 2010 &  $\approx$ 1 hour   & 1 sec      & 48(/192) $\times$ 3500     \\ \hline
+    \end{tabular}
+	\caption{Real Datasets under study.}
+	\label{tab:DataSetProp}
+}
+\end{table}
+
+Each configuration is defined by selecting different values for $T$ and $K$ and $\alpha$, and by choosing an appropriate aggregation matrix.  Also, Alg. \ref{alg:MUCB} is used to directly measure the highest possible large flows. In addition, we evaluate the performance of three different aggregation techniques: 1) Block Aggregation Technique (BAT); 2) Random Aggregation Technique (RAT), and 3) Exponential Aggregation Technique (EAT). In BAT, $m$ entries of TCAM are equally shared among ($n-K$) flows where each block contains a set of $\left\lceil \frac{n-K}{m} \right\rceil$ consecutive aggregable flows which models the mapping of flows into TCAM entries in many practical cases. RAT is an abstract model that we used, through a Monte-Carlo process, to show the performance of our measurement framework where the routing/aggregation structure is not under our control. In EAT, our aggregation method in Alg. \ref{alg:EAG} is used to efficiently allocate TCAM entries to flows, and to produce a well compressed form of linear aggregated measurements. We also use different network inference methods in Eq.(\ref{ISDNFMOpt1})-Eq.(\ref{ISDNFMOpt2}) to verify the compatibility of our framework with a variety of optimization techniques which can be efficiently solved by existing low-complexity algorithms \cite{YCEldar:2012}. In the following, using Eq.(\ref{ISDNFMOpt1}) for flow estimation based on aggregated statistics and without Side Information, is denoted by "w/o SI". We use "w/ SI" to denote the case where SNMP link loads are incorporated into our formulation using Eq.(\ref{ISDNFMOpt2}).
+
+Eq.(\ref{NMSEPdPfaHH}) defines the metrics used in our performance evaluation. $NMSE$ is a metric that we used to measure the accuracy of ODF estimation for each configuration. To justify the effectiveness of our framework for HH detection, we first set the threshold $\theta$ as a fraction of the link capacity $C_{L}$, and then, the average probability of detection ($P_{HH}^{d}$) and the average probability of false alarm ($P_{HH}^{fa}$) are computed as in Eq.(\ref{NMSEPdPfaHH}). Given $n$, these metrics are measured based on two quantities by varying $T$ and $K$. First, $T/n$ represents the ratio of the number of TCAM entries, used for both aggregation and direct measurement in our framework, and the number of flows. Note that low $T/n$ asserts the hard resource constraint regime where a large number of flows ($n$) has been represented by $T$ per-flow and aggregated measurements. Thus, $T/n$ also indicates the Flow Compression Ratio (FCR). Second, $K/T$ represents the ratio of the number of TCAM entries used for direct measurement and the total number of available TCAM entries. 
+
+Furthermore, we measure the effectiveness of our measurement framework in Sub-Population (SP) flow size estimation, which is of particular importance in some security applications such as DDoS detection. In Eq.(\ref{NMSEPdPfaHH}), $SP^{t}$ denotes the subset of $I_{g}^{t}$ where $X(I_{g}^{t})< \theta_{l}$ and $SP^{t}_{l}$ denotes the $l^{th}$ disjoint subset of $SP^{t}$ where the sum of flows in $SP^{t}_{l}$ can be large (note that $\theta_{l}<\theta$). Also, $\pi_{0}^{t}$ and $\pi_{1}^{t}$ are prior probabilities which are computed experimentally. In our Monte-Carlo evaluation process, $\left|SP_{l}^{t}\right|$ is randomly chosen from interval $[\alpha_{l}(n-K) \hspace{0.3cm} \alpha_{u} (n-K)]$ where parameters $\alpha_{l}$ and $\alpha_{u}$ are selected properly to cover a wide range of SP sizes. Due to space limitation, we also summarize our results by averaging our performance criteria in Eq.(\ref{NMSEPdPfaHH}) over different choices of $T$ and $K$ (e.g. $NMSE_{Avg}$).
+%Fig. \ref{fig:GeantNMSEwwoSI} shows the $NMSE$ for different configurations on Geant network where CS inference techniques Eq.(\ref{ISDNFMOpt1}) and Eq.(\ref{ISDNFMOpt2}) with ($p,q,\lambda$)=(2,1,0.01) are used for flow size estimation. In the absence of side information a better accuracy is achieved at higher $K/T$'s.  However, in general, the optimal choice for the number of direct flow measurements $K$ which yields to the minimum $NMSE$ (indicated by solid black points) is achieved at $K/T<1$. In other words, the best accuracy is often achieved by allocating at least part of the TCAM entries for direct measurement and the remaining for flow aggregation. Among these, EAT can significantly enhance the estimation accuracy (e.g. $NMSE{Avg}^{BAT}=0.38$ and $NMSE_{Avg}^{EAT}=0.29$). Also, EAT can remarkably reduces the FCR which is of particular importance under hard resource constraint of both TCAM sizes ($T/n<<1$) and storage capacity; moreover, achieving low estimation error at lower $T/n$ reduces the communication overhead between the switch and controller in iSTAMP. Incorporating side information SNMP link counts and using Eq.(\ref{ISDNFMOpt2}) can remarkably improve the precision of the estimation. In addition, although increasing $T/n$ improves the accuracy, the slope of the improvement is slow after some near optimal compression ratio $T/n$ (e.g. $T/n=0.1$). This indicates the capability of iSTAMP in providing accurate estimates even with a small fraction of measurement resources, which is an important factor in large scale network monitoring applications under hard resource constraints. Fig. \ref{fig:GeantPdfaHHSPwSI1} represents the effectiveness of our measurement framework for reliably detecting both heavy hitters and heavy sub-populations. High probability of detection and low probability of false alarms are achieved where threshold $\theta$ and $\theta_{l}$ are respectively set to 10\% and 1\% of link capacity $C_{L} = 10 Mpbs$.
+
+\begin{equation} \label{NMSEPdPfaHH}
+\scriptsize{
+\begin{aligned}
+& NMSE=\frac{1}{T_{c}} \sum_{t=1}^{T_{c}}  \frac{\left\|X^{t}-\hat{X}^{t}\right\|_{2}}{\left\|X^{t}\right\|_{2}} \\
+& P_{HH}^{d} = \frac{1}{T_{c}} \sum_{t=1}^{T_{c}} Pr\left( \hat{X}^{t} \geq \theta | X^{t} \geq \theta \right) \\
+& P_{HH}^{fa} = \frac{1}{T_{c}} \sum_{t=1}^{T_{c}}  Pr\left( \hat{X^{t}} \geq \theta | X^{t} < \theta \right) \\
+& SPE =\frac{1}{T_{c}}  \sum_{t=1}^{T_{c}} \frac{1}{\left|SP^{t}\right|} \sum_{l \in SP^{t}} \frac{ \left| \left\|\hat{X}_{SP^{t}_{l}}^{t}\right\|_{2}-\left\|X_{SP^{t}_{l}}^{t}\right\|_{2} \right|}{\left\|X_{SP^{t}_{l}}^{t}\right\|_{2}} \\
+& P_{SP}^{d} = \frac{1}{T_{c}} \sum_{t=1}^{T_{c}} \pi_{1}^{t} Pr\left( \left\|\hat{X}_{SP^{t}}^{t} \right\|_{2} \geq \theta | \left\|X_{SP^{t}}^{t} \right\|_{2} \geq \theta \right) \\
+& \hspace{0.6cm} + \frac{1}{T_{c}} \sum_{t=1}^{T_{c}} \pi_{0}^{t} Pr\left( \left\|\hat{X}_{SP^{t}}^{t} \right\|_{2} \leq \theta | \left\|X_{SP^{t}}^{t} \right\|_{2} \leq \theta \right)  \\
+& P_{SP}^{fa} = \frac{1}{T_{c}} \sum_{t=1}^{T_{c}} Pr\left( \left\|\hat{X}_{SP^{t}}^{t} \right\|_{2} \geq \theta | \left\|X_{SP^{t}}^{t} \right\|_{2} < \theta \right)
+\end{aligned}
+}
+\end{equation}
+
+Figure \ref{fig:GeantNMSEwwoSI} shows the $NMSE$ for different configurations on Geant network where Eq.(\ref{ISDNFMOpt1}) and Eq.(\ref{ISDNFMOpt2}) with ($p,q,\lambda$)=(2,1,0.01), as CS inference techniques, are used for flow size estimation. In the absence of side information a better accuracy is achieved at higher $K/T$'s.  However, in general, the optimal choice for the number of direct flow measurements $K$ which yields to the minimum $NMSE$ (indicated by solid black points) is obtained at $K/T<1$. In other words, the best accuracy is often achieved by allocating at least part of the TCAM entries for direct measurement and the remaining for flow aggregation. Among these, EAT can  enhance the estimation accuracy, for example, $NMSE_{Avg}^{BAT}=0.38$ and $NMSE_{Avg}^{EAT}=0.29$; this improvement is significantly higher at low $T/n$'s. Incorporating side information SNMP link counts and using Eq.(\ref{ISDNFMOpt2}) can remarkably improve the precision of the estimation using BAT, RAT and EAT methods. In this case, EAT still can improve the accuracy ($NMSE_{Avg}^{BAT}=0.19$ and $NMSE_{Avg}^{EAT}=0.16$); however, since aggregated measurements are interpreted as side information in Eq.(\ref{ISDNFMOpt2}), the difference between BAT and EAT is low. This is an important fact that is used to address the aggregation feasibility in iSTAMP (see Section \ref{sec:AggFsb}). In addition, although increasing $T/n$ improves the accuracy, the slope of the improvement is slow after some near-optimal FCR (e.g. $T/n \approx 0.1$). 
+
+%The first sub-figure justifies our intuition that direct measurement of $K$ heaviest flows can significantly improve the estimation accuracy comparing with the case where $K$ flows are randomly selected and directly measured through a Monte-Carlo simulation. 
+%
+%In the first sub-figure we compare the performance of BAT technique under two different scenarios where $K$ flows are randomly selected and directly measured (through a Monte-Carlo simulation) and $K$ heaviest flows are directly measured using Alg. \ref{alg:EAG}. This figure shows that measuring the $K$ heaviest flows
+%Due to space limitation, we summarize our results in Tab. \ref{tab:AvgPerfAbilene} by averaging our performance criteria in Eq.(\ref{NMSEPdPfaHH}) over different choices of $T$ and $K$.  More detailed results for Abilene network can be found in \cite{iSTAMPTR:2013}. Note that, for both Geant and Abilene networks, $T_{c}$ is set to the duration of the data in Tab. \ref{tab:DataSetProp} (i.e. small $\beta$ in Eq.(\ref{MinCohProp1})) which is the worst case scenario. Better accuracy can be achieved with smaller $T_{c}$'s.
+%These are important factors in large-scale network monitoring applications under hard resource constraints which re-emphasizes the flexibility and capability of iSTAMP.
+%Therefore, in general, iSTAMP achieves high estimation accuracy using a small fraction of measurement resources, including both TCAM entries and storage capacity, and at low FCRs. Hence, it also reduces the communication overhead between the switch and controller. These are important factors in large-scale network monitoring applications under hard resource constraints which re-emphasizes the effectiveness of iSTAMP.
+% In \cite{iSTAMPTR:2013} we have provided the set of results to show the effectiveness of our framework using other aggregation techniques with different parameters
+
+\begin{table}
+	\centering
+ \scriptsize{
+ \renewcommand{\tabcolsep}{0.05cm}
+ \renewcommand{\arraystretch}{1.0}
+		\begin{tabular}{| c | c | c | c |}
+		\hline
+     Aggregation Technique  & $NMSE_{Avg}$ (w/o SI) & $\bar{P}_{HH}^{d}$ (w/o SI) & $\bar{P}_{HH}^{fa}$ (w/o SI) \\ \hline
+    \hline
+      BAT &  0.3857  &  0.7762  &  0.0696  \\ \hline
+      RAT &  0.5239  &  0.4508  &  0.0900  \\ \hline
+      EAT &  0.3602  &  0.7282  &  0.0496  \\ \hline
+		\hline
+     Aggregation Technique  & $NMSE_{Avg}$ (w/ SI) & $\bar{P}_{HH}^{d}$ (w/ SI) &  $\bar{P}_{HH}^{fa}$ (w/ SI) \\ \hline
+    \hline
+      BAT &  0.1663 &  0.8473  &  0.0396   \\ \hline
+      RAT &  0.2578 &  0.7361  &  0.0571   \\ \hline
+      EAT &  0.1762 &  0.8173  &  0.0341   \\ \hline
+%     \end{tabular}\\
+% 		\begin{tabular}{| c | c | c | c |}
+		\hline
+     Aggregation Technique  & $SPE_{Avg}$ (w/o SI) & $\bar{P}_{SP}^{d}$ (w/o SI) & $\bar{P}_{SP}^{fa}$ (w/o SI) \\ \hline
+    \hline
+      BAT &  0.4943  &  0.7960  &  0.1360  \\ \hline
+		\hline
+     Aggregation Technique  & $SPE_{Avg}$ (w/ SI) & $\bar{P}_{SP}^{d}$ (w/ SI) &  $\bar{P}_{SP}^{fa}$ (w/ SI) \\ \hline
+    \hline
+      BAT &  0.1765 &   0.9019  &  0.0086   \\ \hline
+    \end{tabular}
+	\caption{\footnotesize{The average performance for Abilene network where ($p$,$q$,$\lambda$)=($\infty$,0,0) in Eq.(\ref{ISDNFMOpt1})-Eq.(\ref{ISDNFMOpt2}), $\alpha=1$, $\theta=0.01C_{L}$, $\theta_{l}=0.0025C_{L}$, ($\alpha_{l},\alpha_{u}$)=(0.01,0.2), $C_{L}=1 Mbps$, $\rho=1$ and $\delta=5$.}}
+	\label{tab:AvgPerfAbilene}
+}
+\end{table}
+
+Therefore, iSTAMP achieves high estimation accuracy using a small fraction of available TCAM entries at low FCRs and using different aggregation techniques. Hence, it can produce well-compressed aggregated flow measurements and remarkably decrease the required storage capacity and reduce the communication overhead between control and data planes. Furthermore, Figure \ref{fig:GeantPdfaHHSPwSI1} represents the effectiveness of iSTAMP for reliably detecting both heavy hitters and heavy sub-populations. Among these, a high probability of detection and low probability of false alarms are achieved for HH detection where threshold $\theta$ is set to 10\% of link capacity $C_{L} = 10 Mpbs$. 
+
+This figure also shows that the detection capability for heavy sub-pupolations (with $\theta_{l} = 0.01 C_{L}$) is still high for many choices of $T$ and $K$. Under very hard resource constraints, although the sub-population detection perfromance is lower, it is still acceptable and it improves, rapidly. 
+
+In addition, Table \ref{tab:AvgPerfAbilene} summarizes our results for Abilene network. These results re-emphasize the flexibility and capability of iSTAMP for different network monitoring applications under hard resource constraints. Note that, for both Geant and Abilene networks, $T_{c}$ is set to the duration of the data in Table \ref{tab:DataSetProp} (i.e. small $\beta$ in Eq.(\ref{MinCohProp1})) which is the worst case scenario. Better accuracy can be achieved with smaller $T_{c}$'s.
+
+% $NMSE$, $P_{HH}^{d}$ and $P_{HH}^{fa}$
+Figure \ref{fig:DCEdu1NMSEPdfawSI} and Figure \ref{fig:Edu1DCbetanExt} show  the performance of our measurement framework under very hard resource constraint $T/n=0.0625$ and with SNMP side information using Eq.(\ref{ISDNFMOpt2}) in a data center environment with highly fluctuating flows. Here, the aggregation matrix is a given block aggregation matrix and routing matrix $H$ is computed for the fat-tree topology assuming the ECMP routing between aggregation and core level \cite{Benson:2010}. As it was explained in Section.\ref{sec:Sec2OptMtxActLrnAlg}, in dynamic environments we need to explore different flows more frequently, which is achieved by choosing a smaller $\alpha$ in Alg. \ref{alg:MUCB}. The direct consequence of this effect is seen in Figure \ref{fig:DCEdu1NMSEPdfawSI} where our performance metrics have been improved by decreasing $\alpha$. To enhance the accuracy of estimation and improve the capability of the system for HHI in dynamic environments, iSTAMPS needs to repeatedly learn the behavior of flows. This is achieved by shortening the time horizon $T_{c}$. Figure \ref{fig:Edu1DCbetanExt} shows the effect of different choices of $T_{c}$ using different values of $\beta$ in Eq.(\ref{MinCohProp1}) where $n_{Ext}$ vary. Here, ($\beta=0.5,n_{Ext}=2$), ($\beta=0.5,n_{Ext}=4$), ($\beta=0.2,n_{Ext}=2$) and ($\beta=0.2,n_{Ext}=4$) correspond to $T_{c}=186 (s)$, $T_{c}=260 (s)$, $T_{c}=1051 (s)$ and $T_{c}=1085 (s)$, respectively. Also, $n_{Ext}=2$ and $n_{Ext}=4$ yields the number of flows $n=48$ and $n=192$. It is clear that, even in a very hard resource constraint ($T/n<<1$), our measurement framework can obtain a good estimation accuracy and detecting capability by choosing optimum $K/T$. In practice, the designer of the system must appropriately set the controlling parameters $\alpha$ and $\beta$ based on the history of the system and the required performances through a trial and error process.
+% Please refer to \cite{iSTAMPTR:2013} for additional results. % in differenet cases and other applications in data center, please
+%In \cite{iSTAMPTR:2013}, we have shown the performance of iSTAMP in data center environment in the absence of side information (i.e. using Eq.(\ref{ISDNFMOpt1})) which also supports our argument, here.
+% and with different values for $\alpha$, $\beta$ and $\theta$ which supports our argument, here. We have also shown that our framework can be efficiently used for Load Balancing in data centers \cite{iSTAMPTR:2013}.
+
+\subsection{Feasibility Study using Mininet}
+Mininet is a network testbed for developing OpenFlow and SDN experiments \cite{MininetOrg}. We create two networks that emulate Geant and Data Center environments and feed these two networks with real traffic traces listed in Table \ref{tab:DataSetProp}. Table \ref{tab:MininetResultsTab1} summarizes the results of our implementation in Mininet, demonstrating the effectiveness and feasibility of iSTAMP in production environments. Geant(1) and Data Center denote single point measurement scenario and Geant(2) denotes multi-point measurement scheme involving multiple capableness routers running iSTAMP framework.
+%The details of the implementation, including installing and updating wildcard matching rules in flow tables, collecting statistics and the interaction of switch and controller, can be found in \cite{iSTAMPTR:2013}.
+% where, in accordance with \cite{MYu:2013}, we also have shown that OpenFlow switches provide: 1) reconfigurable infrastructure for adaptive measurement in dynamic environments and 2) stable and accurate measurements for our framework.
+
+\begin{table}[b]
+	\centering
+ \footnotesize{
+ \renewcommand{\tabcolsep}{0.05cm}
+ \renewcommand{\arraystretch}{1.0}
+		\begin{tabular}{| c | c | c | c |}
+		\hline
+       Network/Config. &  $T=50$, $K=0$   &  $T=50$, $K=5$  &  $T=50$, $K=10$  \\ \hline
+      Geant(1)                      &  0.8930	 &  0.6171 	&  0.4909                 \\ \hline
+    \end{tabular}
+    \newline
+\vspace*{0.15cm}
+\newline
+		\begin{tabular}{| c | c | c |}
+		\hline
+       Network/Config. &  $T=24$, $K=0$   &  $T=24$, $K=12$     \\ \hline
+      Data Center                   &   0.6175	 &  0.2924             \\ \hline
+		\hline
+       Network/Config. &  $T=50$, $K=0$ & $T=50$, $K=5$  \\ \hline
+      Geant(2)         &  0.8910	      &  0.6212    \\ \hline
+    \end{tabular}
+	\caption{\scriptsize{$NMSE$(w/o SI) for different networks in Mininet implementation.}}
+	\label{tab:MininetResultsTab1}
+}
+\end{table}
+
+\subsection{Discussion on Aggregation Feasibility} \label{sec:AggFsb}
+In iSTAMP the feasibility of the flow aggregation process is important. In our optimal aggregation matrix design (Eq.(\ref{FAgOpt3})), the feasibility can be simply modeled as another linear constraint and our CPLEX engine can efficiently solve it. However, in our abstract flow estimation models (Eq.(\ref{ISDNFMOpt1})-Eq.(\ref{ISDNFMOpt2})), we assume flows can be aggregated without any constraints. In the absence of SNMP link load measurements, BAT is the model used to address this constraint where feasible aggregable flows are grouped together and Eq.(\ref{ISDNFMOpt1}) is solved for flow size estimation. In the presence of SNMP side information, the feasibility constraint of the aggregation now has less impact on the overall estimation performance. In this case, Eq.(\ref{ISDNFMOpt2}) is used to provide fine grained flow estimates and aggregated flow measurements act as side information for this optimization problem to improve the estimation accuracy, as shown in Figure \ref{fig:GeantNMSEwwoSI}. In essence, iSTAMP is flexible enough to cope with different aggregation constraints.
+% In \cite{iSTAMPTR:2013} we also showed that a high accuracy is still achievable even under random changes in BAT and EAT aggregation techniques.
+
+% % ***** Geant *****
+% % **************************************************************************
+\begin{figure*}
+  \begin{center}
+    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwoSIBAT.png}} \hfill  % \quad  % \hfill% .png
+    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwoSIRAT.png}} \hfill
+    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwoSIEAT.png}} \hfill
+    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwSIBAT.png}} \hfill
+    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwSIRAT.png}} \hfill
+    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwSIEAT.png}}
+  \end{center}
+  \caption{{\footnotesize{$NMSE$ for Geant Network with different configurations using Eq.(\ref{ISDNFMOpt1})-Eq.(\ref{ISDNFMOpt2}) with ($p,q,\lambda$)=(2,1,0.01) $\rho=1$ and $\delta=1.975$.}}}
+  \label{fig:GeantNMSEwwoSI}
+\end{figure*}
+
+\begin{figure}
+  \begin{center}
+    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./GeantIF14Fig/GeantHHSPPd1.png}} \\ \vspace{1.25cm}
+    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./GeantIF14Fig/GeantHHSPPfa1.png}}
+  \end{center}
+  \caption{{\footnotesize{$P^{d}$ and $P^{fa}$ in Geant Network with different configurations for both HH and SP detection where ($\alpha_{l},\alpha_{u}$)=(0.01,0.1), $\rho=1$ and $\delta=1.975$.}}}
+  \label{fig:GeantPdfaHHSPwSI1}
+\end{figure}
+\begin{figure}
+  \begin{center}
+    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./DCEdu1IF14Figures/DCEdu1NMSEPdPfawSI.png}} \\
+  \end{center}
+  \caption{{\footnotesize{$NMSE$, $P_{HH}^{d}$ and $P_{HH}^{fa}$ for Data Center with different configurations where ($p,q,\lambda$)=(2,0,0) in Eq.\ref{ISDNFMOpt2}.}}}
+  \label{fig:DCEdu1NMSEPdfawSI}
+\end{figure}
+\begin{figure}
+  \begin{center}
+    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./DCEdu1IF14Figures/DCEdu1NMSEPdPfawSIbnExt_1.png}}
+  \end{center}
+  \caption{{\footnotesize{$NMSE$, $P_{HH}^{d}$ and $P_{HH}^{fa}$ for Data Center with different configurations where ($p,q,\lambda$)=(2,0,0) in Eq.\ref{ISDNFMOpt2} and $\beta$ (i.e. $T_{c}$) and $n_{Ext}$ vary.}}}
+  \label{fig:Edu1DCbetanExt}
+\end{figure}
+
+%  (i.e., the same flow can be matched to multiple TCAM entries for redundant measurements)
+% zirnevsiha dorosy shavad
+%% % ***** Geant *****
+%% % **************************************************************************
+%\begin{figure*}
+%  \begin{center}
+%    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwoSIBAT.png}} \hfill  % \quad  % \hfill% .png
+%    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwoSIRAT.png}} \hfill
+%    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwoSIEAT.png}} \hfill
+%    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwSIBAT.png}} \hfill
+%    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwSIRAT.png}} \hfill
+%    {\includegraphics[keepaspectratio, width=0.325\textwidth]{./GeantIF14Fig/GeantNMSEwSIEAT.png}}
+%  \end{center}
+%  \caption{{\scriptsize{$NMSE$ for Geant Network with different configurations where ($p,q,\lambda$)=(2,1,0.01) in Eq.(\ref{ISDNFMOpt1})-Eq.(\ref{ISDNFMOpt2}).}}}
+%  \label{fig:GeantNMSEwwoSI}
+%\end{figure*}
+%
+%\begin{figure}
+%  \begin{center}
+%    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./GeantIF14Fig/GeantHHSPPd.png}} \\
+%    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./GeantIF14Fig/GeantHHSPPfa.png}}
+%  \end{center}
+%  \caption{{\scriptsize{$P^{d}$ and $P^{fa}$ for Geant Network with different configurations (($\alpha_{l},\alpha_{u}$)=(0.01,0.1))}}}
+%  \label{fig:GeantPdfaHHSPwSI1}
+%\end{figure}
+%\begin{figure}
+%  \begin{center}
+%    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./DCEdu1IF14Figures/DCEdu1NMSEPdPfawSI.png}} \\
+%  \end{center}
+%  \caption{{\scriptsize{$NMSE$, $P_{HH}^{d}$ and $P_{HH}^{fa}$ for Data Center with different configurations where ($p,q,\lambda$)=(2,0,0) in Eq.(\ref{ISDNFMOpt2}.}}}
+%  \label{fig:DCEdu1NMSEPdfawSI}
+%\end{figure}
+%\begin{figure}
+%  \begin{center}
+%    {\includegraphics[keepaspectratio, width=0.49\textwidth]{./DCEdu1IF14Figures/DCEdu1NMSEPdPfawSIbnExt.png}}
+%  \end{center}
+%  \caption{{\scriptsize{$NMSE$, $P_{HH}^{d}$ and $P_{HH}^{fa}$ for Data Center with different configurations where ($p,q,\lambda$)=(2,0,0) in Eq.\ref{ISDNFMOpt2} and $T_{c}$ and $n_{Ext}$ vary}}}
+%  \label{fig:Edu1DCbetanExt}
+%\end{figure}

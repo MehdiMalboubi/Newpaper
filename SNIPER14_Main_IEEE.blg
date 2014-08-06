@@ -1,0 +1,70 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: SNIPER14_Main_IEEE.aux
+The style file: ieeetr.bst
+Database file #1: SNIPER14_Bib.bib
+Repeated entry---line 84 of file SNIPER14_Bib.bib
+ : @article{Roughan:2012
+ :                      ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 203 of file SNIPER14_Bib.bib
+ :   
+ :   author    = {Haiquan (Chuck) Zhao and
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 546 of file SNIPER14_Bib.bib
+ : 
+ : year = {2001},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 748 of file SNIPER14_Bib.bib
+ :   
+ :   volume    = {1},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Name 2 in "Q. Zhao and Z. Ge, and J. Wang and J. Xu" has a comma at the end for entry QZhao:2006
+while executing---line 963 of file ieeetr.bst
+Name 1 in "H.X. Nguyen, and P. Thiran" has a comma at the end for entry HNguyen:2007
+while executing---line 963 of file ieeetr.bst
+Name 1 in "A. Gupta, and et. al." has a comma at the end for entry SDXGupta:2014
+while executing---line 963 of file ieeetr.bst
+Name 1 in "C. E. Rothenberg, and et al" has a comma at the end for entry Rothenberg:2012
+while executing---line 963 of file ieeetr.bst
+Name 4 in "M. Malboubi and L. Wang and C.N. Chuah and P. Sharma," has a comma at the end for entry IF14iSTAMP:2014
+while executing---line 963 of file ieeetr.bst
+Warning--empty journal in Tootoonchian:2010
+Name 1 in "E.J. Candes, and B. Recht" has a comma at the end for entry Candes:2009
+while executing---line 963 of file ieeetr.bst
+Name 1 in "E.J. Candes, and Y. Plan" has a comma at the end for entry Candes:2010
+while executing---line 963 of file ieeetr.bst
+Name 1 in "G. Bianchi, and M. Bonola, and A. Capone, and C. Cascone" has a comma at the end for entry Bianchi:2014
+while executing---line 963 of file ieeetr.bst
+Name 2 in "G. Bianchi, and M. Bonola, and A. Capone, and C. Cascone" has a comma at the end for entry Bianchi:2014
+while executing---line 963 of file ieeetr.bst
+Name 3 in "G. Bianchi, and M. Bonola, and A. Capone, and C. Cascone" has a comma at the end for entry Bianchi:2014
+while executing---line 963 of file ieeetr.bst
+Name 1 in "M. Moshref, and A. Bhargava, and A. Gupta, and M. Yu, and R. Govindan" has a comma at the end for entry Moshref:2014
+while executing---line 963 of file ieeetr.bst
+Name 2 in "M. Moshref, and A. Bhargava, and A. Gupta, and M. Yu, and R. Govindan" has a comma at the end for entry Moshref:2014
+while executing---line 963 of file ieeetr.bst
+Name 3 in "M. Moshref, and A. Bhargava, and A. Gupta, and M. Yu, and R. Govindan" has a comma at the end for entry Moshref:2014
+while executing---line 963 of file ieeetr.bst
+Name 4 in "M. Moshref, and A. Bhargava, and A. Gupta, and M. Yu, and R. Govindan" has a comma at the end for entry Moshref:2014
+while executing---line 963 of file ieeetr.bst
+Name 2 in "R. H. Keshavan and S. Oh, and A. Montanar" has a comma at the end for entry Keshavan:2009
+while executing---line 963 of file ieeetr.bst
+Warning--empty title in Talib:2009
+Name 1 in "A. Pietro, and D. Ficara, and S. Giordano, and F. Oppedisano, and G. Procissi" has a comma at the end for entry Pietro:2008
+while executing---line 963 of file ieeetr.bst
+Name 2 in "A. Pietro, and D. Ficara, and S. Giordano, and F. Oppedisano, and G. Procissi" has a comma at the end for entry Pietro:2008
+while executing---line 963 of file ieeetr.bst
+Name 3 in "A. Pietro, and D. Ficara, and S. Giordano, and F. Oppedisano, and G. Procissi" has a comma at the end for entry Pietro:2008
+while executing---line 963 of file ieeetr.bst
+Name 4 in "A. Pietro, and D. Ficara, and S. Giordano, and F. Oppedisano, and G. Procissi" has a comma at the end for entry Pietro:2008
+while executing---line 963 of file ieeetr.bst
+Name 1 in "J. Ledlie, and P. Gardner, and M. I. Seltzer" has a comma at the end for entry JLedlie:2007
+while executing---line 963 of file ieeetr.bst
+Name 2 in "J. Ledlie, and P. Gardner, and M. I. Seltzer" has a comma at the end for entry JLedlie:2007
+while executing---line 963 of file ieeetr.bst
+Warning--empty author in MininetOrg
+Warning--empty journal in MininetOrg
+Warning--empty year in MininetOrg
+(There were 25 error messages)

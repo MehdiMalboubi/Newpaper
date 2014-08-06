@@ -1,0 +1,51 @@
+
+2) Regardless of the first question, if UC Davis does not accept/protect the idea, can I personally protect the idea. If Yes, what is the procedure?
+
+
+Pd Pfa for Harvard
+
+ans =
+
+    0.0088    0.0265    0.0442    0.0619    0.0796
+
+
+ans =
+
+    0.8077    0.9135    0.9306    0.9499    0.9566
+
+
+ans =
+
+    0.8081    0.9189    0.9307    0.9499    0.9667
+
+
+ans =
+
+    0.4702    0.2290    0.1768    0.1340    0.1075
+
+
+ans =
+
+    0.4749    0.2412    0.1661    0.1263    0.1032
+
+
+
+GA_PS
+abilene
+ans =
+
+    0.7583    0.4538    0.3651    0.3369
+    0.6178    0.4668    0.3602    0.3241
+    0.7479    0.5344    0.4245    0.3974
+
+geant
+ans =
+
+    0.5954    0.3839    0.2590    0.2259
+    0.6070    0.3757    0.2516    0.2129
+    0.7076    0.4683    0.3031    0.2497
+
+
+Mininet
+
+

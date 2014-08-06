@@ -1,0 +1,51 @@
+\section{SNIPER Performance Evaluation Methodology}  \label{sec:SNIPERPerfEvalApp}
+The performance of SNIPER is evaluated by applying it to two main applications, namely per-flow size and per-flow delay estimations. For this purpose three network topologies, including Abilene, Geant and Harvard networks, and both synthesis and real network traces are considered. For per-flow size estimation, we use real traffic traces from Abilene \cite{Abilene} and GEANT \cite{Uhlig:2006} networks; the characteristics of these traffic traces are represented in Table \ref{tab:DataSetProp}. For per-flow path delay estimation, we first use the Abilene and Geant network topologies to generate the required synthetic data-set where it is assumed that the path delay for the flow between node $i$ and node $j$ is modeled as Eq.(\ref{DelayModel}). In this model, $d^{p}_{ij}$ is the propagation delay between $i^{th}$ and $j^{th}$ nodes, and $q_{ij}$ is the queuing delay in which ,according to \cite{Pietro:2008}, it is modeled as $q_{ij} \sim exp(\lambda)$. Since the average propagation delay in both Abilene and Geant networks is approximately 3.5 ms, thus, the range of the variation of $\lambda$ is chosen in $0 \leq \lambda \leq 10$ which includes both low and high noise scenarios. In addition, we use real per-flow delay from Harvard \cite{JLedlie:2007} which contains 2,492,546 measurements of application-level RTTs, with timestamps, between 226 Azureus clients collected in 4 hours \cite{YLiao:2011}.
+
+% the parameter $\lambda$ is chosen such that $0 \leq q_{ij} \leq 10$
+\begin{equation} \label{DelayModel}
+% \small
+\begin{aligned}
+d_{ij}=d^{p}_{ij}+q_{ij}
+\end{aligned}
+% }
+\end{equation}
+
+\begin{table}[b]
+	\centering
+ %\small{
+ %\renewcommand{\tabcolsep}{0.05cm}
+ %\renewcommand{\arraystretch}{1.0}
+		\begin{tabular}{| c | c | c | c | c | c |}
+		\hline
+     Network  & Date       & Duration  & Resolution   & TM Size ($n \times \mathcal{T}_{0}$)              \\ \hline
+    \hline
+      Abilene \cite{Abilene}   & 2004-05-01 &  1 week   &  5 min. & 144 $\times$ 2016    \\ \hline
+      GEANT \cite{Uhlig:2006}  & 2005-01-08 &  1 week   & 15 min. & 529 $\times$ 672     \\ \hline
+    \end{tabular}
+		\vspace{0.15cm}
+	\caption{Real Datasets under study.}
+	\label{tab:DataSetProp}
+%}
+\end{table}
+
+In our supervised learning scheme, each data-set is divided into $t_{p}$ parts. The first part, called learning epoch, with size $n \times T_{0}$ (where $ T_{0}=\left\lceil \frac{\mathcal{T}_{0}}{t_{p}}\right\rceil$) is utilized to design the OOM using the GA and PSO evolutionary algorithms. The last population of the learning stage determines the OOM and its estimation performance is denoted by subscript $T_{0}$ in our results. Then, the same OOM is used over other $t_{p}-1$ parts of the data-set (called measurement epochs) and the average of the performance over multiple parts is computed and is denoted by subscript $Avg$ in our results. The number of measurement paths, denoted by $K$, plays an important role in improving the estimation accuracy. This parameter is defined as $K=s.(n.T_{0})$ where $s$ is the Sampling Ratio (SR) and $0 \leq s \leq 1$.  Thus, given sampling ratio $s$ and having $n$ and $T_{0}$, consequently, $K$ (as the number of required measurements) and the amount of required resources can be computed. Note that, the higher the $K$ is, the better the estimation accuracy is.
+
+The performance of NI methods in SNIPER framework, that is, the estimation accuracy of the completion of the matrix of IAI is evaluated using the following two criteria in Eq.(\ref{NormMetrics}) where NMAE denotes Normalized Mean Absolute Error and NMSE denotes Normalized Mean Square Error. The status of the IAI are also classified into two different classes. In the case of classifying per-flow delays, the flow delay estimates are compared with a threshold $\theta$ which is set as the average delay in the data-set. On the other hand, in the case of classifying per-flow sizes, the flow size estimates are compared with a threshold $\theta$ which is set as a fraction of the link capacity $C_{l}$; here, $C_{l}$ is set to the maximum flow size in the available data-set. Accordingly, the performance of the detection of congested paths (i.e. flows with delay longer than the threshold) and heavy hitters (i.e. flows larger than the threshold) are computed by the probability of detection $P^{d}$ and probability of false alarm $P^{fa}$ in Eq.(\ref{PdPfaCSHH}). Here, different subscripts are used to distinguish between different applications where $CP$ denotes Congested Paths and $HH$ denotes Heavy Hitters, respectively.
+% Throughout this paper, the fitness of the solutions in our evolutionary algorithms are evaluated using the two metrics defined in Eq.(\ref{NormMetrics}) (see Section \ref{sec:SNIPERPerfEvalApp}), namely, Normalized Mean Absolute Error (NMAE) and Normalized Mean Square Error (NMSE) where $x_{ij}$ denotes the $ij^{th}$ entry of the matrix $X$ (which is known in the learning stage indicated by $T_{0}$) and $\hat{x}_{ij}$ denotes the $ij^{th}$ entry of the matrix $\hat{X}$ which is output of the MC process. 
+% \hspace{0.15cm} \text{\&} \hspace{0.15cm}
+\begin{equation} \label{NormMetrics}
+%\small{
+\begin{aligned}
+NMAE = \frac{\sum_{ij \in \bar{\Omega}} \left|x_{ij} - \hat{x}_{ij}\right|}{\sum_{ij \in \bar{\Omega}} \left|x_{ij}\right|} \\
+ NMSE = \frac{\sqrt{\sum_{ij \in \bar{\Omega}} \left(x_{ij} - \hat{x}_{ij}\right)^{2} }}{\sqrt{\sum_{ij \in \bar{\Omega}} \left(x_{ij}\right)^{2}}}
+\end{aligned}
+%}
+\end{equation}
+\begin{equation} \label{PdPfaCSHH}
+%\small{
+\begin{aligned}
+& P^{d} = \frac{1}{\left| \bar{\Omega} \right|} \sum_{ij \in \bar{\Omega}}  Pr\left( \hat{x}_{ij} \geq \theta | x_{ij} \geq \theta \right) \\
+& P^{fa} = \frac{1}{\left| \bar{\Omega} \right|} \sum_{ij \in \bar{\Omega}} Pr\left( \hat{x}_{ij} \geq \theta | x_{ij} < \theta \right) \\
+\end{aligned}
+%}
+\end{equation}

@@ -1,0 +1,121 @@
+\begin{thebibliography}{10}
+
+\bibitem{QZhao:2006}
+Q.~Zhao, Z.~Ge, J.~Wang, and J.~Xu, ``Robust traffic matrix estimation with
+  imperfect information: Making use of multiple data sources,'' {\em
+  ACM-SIGMETRICS}, 2006.
+
+\bibitem{MDFE:2013}
+M.~Malboubi, C.~Vu, C.-N. Chuah, and P.~Sharma, ``Decentralizing network
+  inference problems with multiple-description fusion estimation (mdfe),'' {\em
+  IEEE INFOCOM}, April, 2013.
+
+\bibitem{HNguyen:2007}
+H.~Nguyen and P.~Thiran, ``Network loss inference with second order statistics
+  of end-to-end flows,'' {\em ACM-IMC}, 2007.
+
+\bibitem{SDXGupta:2014}
+A.~Gupta and et. al., ``Sdx: A software defined internet exchange,'' {\em ACM
+  SIGCOMM (HotSDN)}, 2014.
+
+\bibitem{Rothenberg:2012}
+C.~E. Rothenberg and et~al, ``Revisiting routing control platforms with the
+  eyes and muscles of software-defined networking,'' {\em ACM SIGCOMM
+  (HotSDN)}, 2012.
+
+\bibitem{MYu:2011}
+L.~Jose, M.~Yu, and J.~Rexford, ``Online measurement of large traffic
+  aggregates on commodity switches,'' {\em ACM-Hot-ICE}, 2011.
+
+\bibitem{MYu:2013}
+M.~Yu, L.~Jose, and R.~Miao, ``Software defined traffic measurement with
+  opensketch,'' {\em ACM-USENIX}, 2013.
+
+\bibitem{IF14iSTAMP:2014}
+M.~Malboubi, L.~Wang, C.~Chuah, and P.~Sharma, ``Intelligent sdn based traffic
+  (de)aggregation and measurement paradigm (\emph{\textbf{i}}stamp),'' {\em
+  IEEE INFOCOM}, 2014.
+
+\bibitem{Adrichen:2014}
+N.~van Adrichen, C.~Doerr, and F.~Kuipers, ``Opennetmon: Network monitoring in
+  openflow software-defined networks,'' {\em IEEE, INFOCOM}, 2014.
+
+\bibitem{Tootoonchian:2010}
+A.~Tootoonchian, M.~Ghobadi, and Y.~Ganjali, ``Opentm: traffic matrix estimator
+  for openflow networks,'' 2010.
+
+\bibitem{Elad:2007}
+M.~Elad, ``Optimized projections for compressed sensing,'' {\em IEEE Trans. On
+  Signal Proc.}, vol.~55(12), pp.~5695--5702, 2007.
+
+\bibitem{Roughan:2012}
+R.~M, Y.~Zhang, W.~Willinger, and L.~Qiu, ``Spatio-temporal compressive sensing
+  and internet traffic matrices,'' {\em IEEE/ACM Transactions on Networking},
+  vol.~20, pp.~662--676, 2012.
+
+\bibitem{Gursun:2011}
+G.~Gursun and M.~Crovella, ``On traffic matrix completion in the internet,''
+  {\em ACM, IMC}, 2012.
+
+\bibitem{YLiao:2011}
+Y.~Liao, W.~Duy, P.~Geurtsz, and G.~Leduc, ``Decentralized prediction of
+  end-to-end network performance classes,'' {\em ACM, CoNEXT}, 2011.
+
+\bibitem{Candes:2009}
+E.~Candes and B.~Recht, ``Exact matrix completion via convex optimization,''
+  {\em Foundations of Computational Mathematics}, vol.~9, 2009.
+
+\bibitem{Candes:2010}
+E.~Candes and Y.~Plan, ``Matrix completion with noise,'' {\em Proc. of the
+  IEEE}, vol.~98, pp.~925--936, 2010.
+
+\bibitem{Bianchi:2014}
+G.~Bianchi, M.~Bonola, A.~Capone, and C.~Cascone, ``Openstate: Programming
+  platform-independent stateful openflow applications inisde the switch,'' {\em
+  ACM SIGCOMM}, 2014.
+
+\bibitem{Moshref:2014}
+M.~Moshref, A.~Bhargava, A.~Gupta, M.~Yu, and R.~Govindan, ``Flow-level state
+  transition as a new switch primitive for sdn,'' {\em ACM SIGCOMM (HotSDN)},
+  2014.
+
+\bibitem{Kachitvichyanuku:2012}
+V.~Kachitvichyanukul, ``Comparison of three evolutionary algorithms: Ga, pso
+  and de,'' {\em Industrial Engineering and Management Systems}, vol.~11,
+  pp.~215--223, 2012.
+
+\bibitem{Keshavan:2009}
+R.~H. Keshavan, S.~Oh, and A.~Montanar, ``Matrix completion from a few
+  entries,'' {\em CoRR}, 2009.
+
+\bibitem{Talib:2009}
+E.~Talib in {\em Methaheuristics: From Design to Implementation}, John-Wiley,
+  2009.
+
+\bibitem{Eberhart:2001}
+R.~Eberhart and Y.~Shi, ``Particle swarm optimization: developments,
+  applications and resources,'' {\em Proceedings of the 2001 Congress on
+  Evolutionary Computation}, 2001.
+
+\bibitem{Abilene}
+``Abilene traffic.''
+\newblock www.cs.utexas.edu/~yzhang/research/AbileneTM.
+
+\bibitem{Uhlig:2006}
+``Geant network:.''
+\newblock http://totem.info.ucl.ac.be/dataset.html.
+
+\bibitem{Pietro:2008}
+A.~Pietro, D.~Ficara, S.~Giordano, F.~Oppedisano, and G.~Procissi, ``End to end
+  inference of link level queueing delay distribution and variance,'' {\em IEEE
+  SPECTS 2008}, 2008.
+
+\bibitem{JLedlie:2007}
+J.~Ledlie, P.~Gardner, and M.~I. Seltzer, ``Network coordinates in the wild,''
+  {\em In Proc. of USENIX NSDI}, 2007.
+
+\bibitem{MininetOrg}
+``Miniet,''
+\newblock At: \url{http://mininet.org/}.
+
+\end{thebibliography}
